@@ -1,0 +1,12 @@
+<div class="panel">
+	<div class="panel-heading">
+		<h3 class="panel-title">Installed Modules</h3>
+	</div>
+	<ul class="nav nav-pills nav-stacked">
+		<?php foreach ($list as $item) {?>
+		<li<?php if ($item == $current) {?> class="active"<?php }?>>
+			<a href="?module=<?php echo $item;?>&action=main"><?php echo $item;?></a>
+		</li>
+		<?php }?>
+	</ul>
+</div>

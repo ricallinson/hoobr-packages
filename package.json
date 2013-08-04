@@ -1,0 +1,33 @@
+{
+    "name": "hoobr-packages",
+    "description": "Manage packages installed by Hoobr.",
+    "version": "0.0.1",
+    "author": {
+        "name": "Ric Allinson",
+        "email": "npm@ricallinson.com"
+    },
+    "engines": {
+        "php": ">= 5.4.0"
+    },
+    "config": {
+        "hoobr": {
+            "version": "*",
+            "type": "module",
+            "core": "true"
+        }
+    },
+    "dependencies" : {
+        "php-package": "git://github.com/ricallinson/php-package.git#master"
+    },
+    "devDependencies" : {
+        
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:ricallinson/hoobr-packages.git"
+    },
+    "scripts": {
+        "test": "./test/run"
+    },
+    "license": "MIT"
+}

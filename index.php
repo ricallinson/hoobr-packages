@@ -146,7 +146,7 @@ $exports["admin-install"] = function () use ($req, $res, $render, $pathlib, $pac
         return $render($pathlib->join(__DIR__, "views", "admin-install.php.html"), $result);
     }
 
-    $res->redirect("?module=" . $result["package"]);
+    $res->redirect("?page=admin&module=" . $result["package"]);
 };
 
 $exports["admin-uninstall"] = function () use ($req, $res, $render, $pathlib, $package) {
@@ -157,7 +157,7 @@ $exports["admin-uninstall"] = function () use ($req, $res, $render, $pathlib, $p
 
     if ($packageName && is_dir($dirpath) && $confirm === "true") {
         if (deleteDir($dirpath)) {
-            $res->redirect("?module=hoobr-packages");
+            $res->redirect("?page=admin&module=hoobr-packages");
         }
     }
 

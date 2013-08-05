@@ -17,10 +17,11 @@
             </div>
             <?php }?>
             <div class="form-group pull-right">
-                <a href="?module=hoobr-packages&amp;action=main" class="btn btn-default">Cancel</a>
+                <a href="?page=admin&amp;module=hoobr-packages&amp;action=main" class="btn btn-default">Cancel</a>
                 <?php if (!$error) {?>
                 or
                 <input class="btn btn-primary" type="submit" value="Uninstall"></input>
+                <input type="hidden" name="page" value="admin"></input>
                 <input type="hidden" name="module" value="hoobr-packages"></input>
                 <input type="hidden" name="action" value="uninstall"></input>
                 <input type="hidden" name="confirm" value="true"></input>

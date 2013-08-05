@@ -16,7 +16,7 @@
 			<?php foreach ($list as $item) {?>
 			<tr>
 				<td>
-					<a href="?module=<?php echo $item["name"];?>&action=main"><?php echo $item["name"];?></a>
+					<a href="?page=admin&amp;module=<?php echo $item["name"];?>&action=main"><?php echo $item["name"];?></a>
 				</td>
 				<td>
 					<?php echo $item["config"]["hoobr"]["type"];?>
@@ -29,12 +29,12 @@
 				</td>
 				<td>
 					<?php if ($item["config"]["hoobr"]["core"] !== "true") {?>
-					<a href="?module=hoobr-packages&amp;action=uninstall&amp;package-name=<?php echo $item["name"];?>" class="btn btn-danger btn-mini">Uninstall</a>
+					<a href="?page=admin&amp;module=hoobr-packages&amp;action=uninstall&amp;package-name=<?php echo $item["name"];?>" class="btn btn-danger btn-mini">Uninstall</a>
 					<?php }?>
 				</td>
 			</tr>
 			<?php }?>
 		</tbody>
 	</table>
-	<a href="?module=hoobr-packages&amp;action=install" class="btn btn-primary">Install a package</a>
+	<a href="?page=admin&amp;module=hoobr-packages&amp;action=install" class="btn btn-primary">Install a package</a>
 </div>

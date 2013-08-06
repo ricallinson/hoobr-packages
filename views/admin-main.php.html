@@ -8,15 +8,15 @@
 				<th>Package Name</th>
 				<th>Type</th>
 				<th>Version</th>
-				<th>Quality</th>
-				<th></th>
+				<!-- <th>Quality</th> -->
+				<!-- <th></th> -->
 			</tr>
 		</thead>
 		<tbody>
 			<?php foreach ($list as $item) {?>
 			<tr>
 				<td>
-					<a href="?page=admin&amp;module=<?php echo $item["name"];?>&action=main"><?php echo $item["name"];?></a>
+					<a href="?page=admin&amp;module=<?php echo $item["name"];?>&amp;action=main"><?php echo $item["name"];?></a>
 				</td>
 				<td>
 					<?php echo $item["config"]["hoobr"]["type"];?>
@@ -24,14 +24,14 @@
 				<td>
 					<?php echo $item["version"];?>
 				</td>
-				<td>
+				<!-- <td>
 					0%
-				</td>
-				<td>
+				</td> -->
+				<!-- <td>
 					<?php if ($item["config"]["hoobr"]["core"] !== "true") {?>
 					<a href="?page=admin&amp;module=hoobr-packages&amp;action=uninstall&amp;package-name=<?php echo $item["name"];?>" class="btn btn-danger btn-mini">Uninstall</a>
 					<?php }?>
-				</td>
+				</td> -->
 			</tr>
 			<?php }?>
 		</tbody>

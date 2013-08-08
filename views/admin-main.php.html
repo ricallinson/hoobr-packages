@@ -5,7 +5,8 @@
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
-				<th>Package Name</th>
+				<th>Package</th>
+				<th>Config</th>
 				<th>Type</th>
 				<th>Version</th>
 				<!-- <th>Quality</th> -->
@@ -16,7 +17,14 @@
 			<?php foreach ($list as $item) {?>
 			<tr>
 				<td>
-					<a href="?page=admin&amp;module=<?php echo $item["name"];?>&amp;action=main"><?php echo $item["name"];?></a>
+					<a href="?page=admin&amp;module=<?php echo $item["name"];?>&amp;action=main">
+						<?php echo $item["name"];?>
+					</a>
+				</td>
+				<td>
+					<a href="?page=admin&amp;module=hoobr-config-manager&amp;action=main&amp;config-module=<?php echo $item["name"];?>">
+						Edit
+					</a>
 				</td>
 				<td>
 					<?php echo $item["config"]["hoobr"]["type"];?>

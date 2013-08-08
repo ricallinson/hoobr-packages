@@ -6,97 +6,11 @@ $res = $require("php-http/response");
 $render = $require("php-render-php");
 $pathlib = $require("php-path");
 $package = $require("php-package");
+$utils = $require("hoobr-packages/lib/utils");
 
-/*
-    Deletes the given directory and all files in it.
+$exports["admin-menu"] = function () use ($req, $render, $pathlib, $utils) {
 
-    Copy of same function in php-package.
-*/
-
-function deleteDir($dirpath) {
-
-    if (!is_dir($dirpath)) {
-        throw new InvalidArgumentException("$dirpath must be a directory");
-    }
-
-    if (substr($dirpath, strlen($dirpath) - 1, 1) != DIRECTORY_SEPARATOR) {
-        $dirpath .= DIRECTORY_SEPARATOR;
-    }
-
-    $cdir = scandir($dirpath);
-
-    foreach ($cdir as $key => $value) {
-
-        if (!in_array($value, array(".",".."))) {
-
-            $fullpath = $dirpath . DIRECTORY_SEPARATOR . $value;
-
-            if (is_dir($fullpath)) {
-                deleteDir($fullpath);
-            } else {
-                unlink($fullpath);
-            }
-        }
-    }
-
-    return rmdir($dirpath);
-}
-
-function getModuleList($dirpath, $pathlib) {
-
-    $dirpath = $pathlib->join($dirpath, "node_modules");
-
-    $modules = inspectDir($dirpath, $pathlib);
-
-    $list = array();
-
-    foreach ($modules as $fullpath => $package) {
-        if (isset($package["config"]["hoobr"]["type"]) && $package["config"]["hoobr"]["type"] === "module") {
-            array_push($list, $package["name"]);
-        }
-    }
-
-    return $list;
-}
-
-function inspectModule($dirpath, $pathlib) {
-
-    $filepath = $pathlib->join($dirpath, "package.json");
-
-    if (!is_file($filepath)) {
-        return null;
-    }
-
-    $package = json_decode(file_get_contents($filepath), true);
-
-    return $package;
-}
-
-function inspectDir($dirpath, $pathlib) {
-
-    $modules = array();
-
-    $files = scandir($dirpath);
-
-    foreach ($files as $file) {
-
-        if (!in_array($file, array(".", ".."))) {
-
-            $fullpath = $pathlib->join($dirpath, $file);
-            $package = inspectModule($fullpath, $pathlib);
-
-            if ($package && isset($package["config"]["hoobr"])) {
-                $modules[$fullpath] = $package;
-            }
-        }
-    }
-
-    return $modules;
-}
-
-$exports["admin-menu"] = function () use ($req, $render, $pathlib) {
-
-    $list = getModuleList($req->cfg("approot"), $pathlib);
+    $list = $utils->getModuleList($req->cfg("approot"));
 
     return $render($pathlib->join(__DIR__, "views", "admin-menu.php.html"), array(
         "list" => $list,
@@ -104,9 +18,9 @@ $exports["admin-menu"] = function () use ($req, $render, $pathlib) {
     ));
 };
 
-$exports["admin-sidebar"] = function () use ($req, $render, $pathlib) {
+$exports["admin-sidebar"] = function () use ($req, $render, $pathlib, $utils) {
 
-    $list = getModuleList($req->cfg("approot"), $pathlib);
+    $list = $utils->getModuleList($req->cfg("approot"));
 
     return $render($pathlib->join(__DIR__, "views", "admin-sidebar.php.html"), array(
         "list" => $list,
@@ -114,11 +28,11 @@ $exports["admin-sidebar"] = function () use ($req, $render, $pathlib) {
     ));
 };
 
-$exports["admin-main"] = function () use ($req, $render, $pathlib) {
+$exports["admin-main"] = function () use ($req, $render, $pathlib, $utils) {
 
     $dirpath = $pathlib->join($req->cfg("approot"), "node_modules");
 
-    $modules = inspectDir($dirpath, $pathlib);
+    $modules = $utils->inspectDir($dirpath);
 
     $list = array();
 
@@ -149,14 +63,14 @@ $exports["admin-install"] = function () use ($req, $res, $render, $pathlib, $pac
     $res->redirect("?page=admin&module=" . $result["package"]);
 };
 
-$exports["admin-uninstall"] = function () use ($req, $res, $render, $pathlib, $package) {
+$exports["admin-uninstall"] = function () use ($req, $res, $render, $pathlib, $package, $utils) {
 
     $packageName = $req->param("package-name");
     $confirm = $req->param("confirm");
     $dirpath = $pathlib->join($req->cfg("approot"), "node_modules", $packageName);
 
     if ($packageName && is_dir($dirpath) && $confirm === "true") {
-        if (deleteDir($dirpath)) {
+        if ($utils->deleteDir($dirpath)) {
             $res->redirect("?page=admin&module=hoobr-packages");
         }
     }
